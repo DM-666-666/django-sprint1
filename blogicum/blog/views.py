@@ -49,14 +49,22 @@ posts = [
 
 def index(request):
     template_name = 'index.html'
-    return render(request, template_name)
+    return render(request, template_name, {'posts': posts})
 
 
-def post_detail(request):
+def post_detail(request, id):
     template_name = 'detail.html'
-    return render(request, template_name)
+    post = None
+    for post in posts:
+        if post['id'] == id:
+            post == post
+    return render(request, template_name, {'post': post})
 
 
-def category_posts(request):
+def category_posts(request, category_slug):
     template_name = 'category.html'
-    return render(request, template_name)
+    category_posts = []
+    for post in posts:
+        if category_slug == post['category']:
+            category_posts.append(post)
+    return render(request, template_name, {'posts': category_posts, 'category': category_slug})

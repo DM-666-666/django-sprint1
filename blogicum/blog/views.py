@@ -67,4 +67,5 @@ def category_posts(request, category_slug):
     for post in posts:
         if category_slug == post['category']:
             category_posts.append(post)
-    return render(request, template_name, {'posts': category_posts, 'category': category_slug})
+    return render(request, template_name, {'posts': category_posts,
+                                           'category': category_slug})

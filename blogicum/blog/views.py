@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import Http404
 
 
 # Create your views here.
@@ -39,7 +40,7 @@ posts = [
         'location': 'Остров отчаянья',
         'date': '25 октября 1659 года',
         'category': 'not-my-day',
-        'text': 
+        'text':
             'Всю ночь и весь день шёл дождь и дул сильный\n'
             '                порывистый ветер. 25 октября.  Корабль за ночь разбило\n'
             '                в щепки; на том месте, где он стоял, торчат какие-то\n'
@@ -51,21 +52,23 @@ posts = [
 
 
 def index(request):
-    template_name = 'index.html'
-    return render(request, template_name, {'posts': posts})
+    template_name = 'blog/index.html'
+    return render(request, template_name, {'posts': reversed(posts)})
 
 
 def post_detail(request, id):
-    template_name = 'detail.html'
+    template_name = 'blog/detail.html'
     post = None
-    for post in posts:
-        if post['id'] == id:
-            post == post
+    for el in posts:
+        if el['id'] == id:
+            post = el
+    if post is None:
+        raise Http404('Страница не найдена!')
     return render(request, template_name, {'post': post})
 
 
 def category_posts(request, category_slug):
-    template_name = 'category.html'
+    template_name = 'blog/category.html'
     category_posts = []
     for post in posts:
         if category_slug == post['category']:

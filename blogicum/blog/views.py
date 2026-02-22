@@ -48,11 +48,13 @@ posts = [
 
 
 def index(request):
+    """Отображает главную страницу"""
     template_name = "blog/index.html"
     return render(request, template_name, {"posts": reversed(posts)})
 
 
 def post_detail(request, id):
+    """Отображает конкретные посты"""
     template_name = "blog/detail.html"
     post = None
     for el in posts:
@@ -64,11 +66,13 @@ def post_detail(request, id):
 
 
 def category_posts(request, category_slug):
+    """Отображает список постов по категории"""
     template_name = "blog/category.html"
     category_posts = []
     for post in posts:
         if category_slug == post["category"]:
             category_posts.append(post)
     return render(
-        request, template_name, {"posts": category_posts, "category": category_slug}
+        request, template_name, {
+            "posts": category_posts, "category": category_slug}
     )

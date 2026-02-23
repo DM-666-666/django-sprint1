@@ -56,12 +56,10 @@ def index(request):
 def post_detail(request, id):
     """Отображает конкретные посты"""
     template_name = "blog/detail.html"
-    post = None
-    for el in posts:
-        if el["id"] == id:
-            post = el
-    if post is None:
+    posts_dict = {post["id"]: post for post in posts}
+    if id not in posts_dict:
         raise Http404("Страница не найдена!")
+    post = posts_dict[id]
     return render(request, template_name, {"post": post})
 
 

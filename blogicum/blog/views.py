@@ -71,7 +71,6 @@ def category_posts(request, category_slug):
         if category_slug == post["category"]:
             category_posts.append(post)
     context = {"posts": category_posts, "category_slug": category_slug}
-    print(context)
     return render(
         request, template_name, context
     )

@@ -46,6 +46,8 @@ posts = [
     },
 ]
 
+posts_collection = {post["id"]: post for post in posts}
+
 
 def index(request):
     """Отображает главную страницу"""
@@ -56,21 +58,13 @@ def index(request):
 def post_detail(request, id):
     """Отображает конкретные посты"""
     template_name = "blog/detail.html"
-    posts_dict = {post["id"]: post for post in posts}
-    if id not in posts_dict:
+    if id not in posts_collection:
         raise Http404("Страница не найдена!")
-    post = posts_dict[id]
+    post = posts_collection[id]
     return render(request, template_name, {"post": post})
 
 
 def category_posts(request, category_slug):
     """Отображает список постов по категории"""
     template_name = "blog/category.html"
-    category_posts = []
-    for post in posts:
-        if category_slug == post["category"]:
-            category_posts.append(post)
-    context = {"posts": category_posts, "category_slug": category_slug}
-    return render(
-        request, template_name, context
-    )
+    return render(request, template_name, {"category_slug": category_slug})
